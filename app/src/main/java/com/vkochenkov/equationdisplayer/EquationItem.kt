@@ -1,13 +1,21 @@
 package com.vkochenkov.equationdisplayer
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.*
+import androidx.compose.material.Divider
 import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.onSizeChanged
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.unit.IntSize
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 class EquationItem(
     private val line: Any,
+    private val underline: Any? = null,
     private val superscript: Any? = null,
     private val subscript: Any? = null,
     private val fontParams: FontParams = FontParams()
@@ -16,9 +24,39 @@ class EquationItem(
     fun Show(
         fParams: FontParams = fontParams
     ) {
-        Row {
-            CheckTypeWithList(line, fParams)
-            Column {
+        var elementSizePx by remember { mutableStateOf(IntSize.Zero) }
+        var isSizeChanged by remember { mutableStateOf(false) }
+        val context = LocalContext.current
+        val density = context.resources.displayMetrics.density
+
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier.onSizeChanged {
+                if (!isSizeChanged) {
+                    elementSizePx = it
+                    isSizeChanged = true
+                }
+            }
+        ) {
+            // main content
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                CheckTypeWithList(line, fParams)
+                if (underline is String || underline is EquationItem) {
+                    Divider(
+                        modifier = Modifier.width((elementSizePx.width / density).dp),
+                        color = Color.Black,
+                        thickness = 2.dp
+                    )
+                    CheckTypeWithList(underline, fParams)
+                }
+            }
+            // indexes
+            Column(
+                verticalArrangement = Arrangement.SpaceBetween,
+                modifier = Modifier.height((elementSizePx.height / density).dp)
+            ) {
                 val fParamsWithHalf = fParams.copy(
                     fontSize = (fParams.fontSize.value / 2).sp
                 )
@@ -56,8 +94,12 @@ class EquationItem(
     private fun CheckTypeWithList(item: Any?, fontParams: FontParams) {
         when (item) {
             is List<*> -> {
-                for (i in item) {
-                    CheckBaseType(i, fontParams)
+                Row(
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    for (i in item) {
+                        CheckBaseType(i, fontParams)
+                    }
                 }
             }
             else -> {
