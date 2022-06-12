@@ -25,85 +25,38 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colors.background
                 ) {
                     Column {
+
                         EquationItem(
-                            line = EquationItem(
-                                line = "1",
-                                superscript = EquationItem(
-                                    line = "4",
-                                    superscript = "3"
-                                )
-                            ),
-                            underline = EquationItem(
-                                line = "1",
-                                superscript = EquationItem(
-                                    line = "4",
-                                    superscript = "3"
-                                )
-                            ),
-                            fontParams = FontParams(
-                                fontSize = 60.sp
+                            line = listOf(
+                                "f(x) = ",
+                                EquationItem(
+                                    line = "ax",
+                                    superscript = "2"
+                                ),
+                                " + bx",
+                                " + c"
                             )
                         ).Show()
 
                         EquationItem(
-                            line = "2",
-                            underline = "2",
-                            subscript = "1",
-                            superscript = EquationItem(
-                                line = "2",
-                                superscript = "2"
-                            )
-                        ).Show()
-
-                        EquationItem(
-                            line = "3",
-                            underline = EquationItem(
-                                line = "3",
-                                subscript = "1",
-                                superscript = "2"
-                            ),
-                        ).Show()
-
-                        EquationItem(
-                            line = EquationItem(
-                                line = "4",
-                                subscript = "1",
-                                superscript = "2"
-                            ),
-                            underline = "4"
-                        ).Show()
-
-
-                            EquationItem(
-                                line = listOf(
-                                    "x = ",
-                                    EquationItem(
-                                        line = EquationItem(
-                                            line = "x",
-                                            superscript = "2",
-                                            subscript = listOf(
-                                                EquationItem(
-                                                    line = "y",
-                                                    subscript = "1",
-                                                    superscript = "44444"
-                                                ),
-                                                ", ",
-                                                EquationItem(
-                                                    line = "y",
-                                                    subscript = "2"
-                                                ),
-                                            )
-                                        ),
-                                        underline = EquationItem(
-                                            line = "y",
-                                            superscript = "2"
+                            line = listOf(
+                                "y = ",
+                                EquationItem(
+                                    line = EquationItem(
+                                        line = listOf(
+                                            "(x - ",
+                                            EquationItem(
+                                                line = "1",
+                                                underline = "2"
+                                            ),
+                                            ")"
                                         )
                                     ),
-                                    " this the end",
-                                ), fontParams = FontParams(
-                                    fontSize = 50.sp
+                                    superscript = "2"
                                 )
-                            ).Show()
+                            )
+                        ).Show()
+
 
                     }
                 }
