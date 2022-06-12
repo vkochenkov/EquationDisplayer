@@ -17,11 +17,10 @@ class EquationItem(
     private val underline: Any? = null,
     private val superscript: Any? = null,
     private val subscript: Any? = null,
-    private val fontParams: FontParams = FontParams()
 ) {
     @Composable
     fun Show(
-        fParams: FontParams = fontParams
+        fontParams: FontParams = FontParams()
     ) {
         // var elementSizePx by remember { mutableStateOf(IntSize.Zero) }
         var elementHighDp by remember { mutableStateOf(0.dp) }
@@ -41,7 +40,7 @@ class EquationItem(
             }
         ) {
             // main content
-            var newFontParams = fParams
+            var newFontParams = fontParams
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {

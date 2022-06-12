@@ -52,7 +52,10 @@ class MainActivity : ComponentActivity() {
                                             ")"
                                         )
                                     ),
-                                    superscript = "2"
+                                    superscript = EquationItem(
+                                        line = "2",
+                                        superscript = "3"
+                                    )
                                 )
                             )
                         ).Show()
