@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.EquationDisplayer">
         <activity
-            android:name=".MainActivity"
+            android:name=".PreviewActivity"
             android:exported="true"
             android:label="@string/app_name"
             android:theme="@style/Theme.EquationDisplayer">
