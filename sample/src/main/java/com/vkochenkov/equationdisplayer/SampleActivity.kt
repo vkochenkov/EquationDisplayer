@@ -10,7 +10,7 @@ import androidx.compose.ui.Modifier
 import com.vkochenkov.equationdisplayer.ui.theme.EquationDisplayerTheme
 import com.vkochenkov.equationdisplayerlib.EquationItem
 
-class PreviewActivity : ComponentActivity() {
+class SampleActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -20,7 +20,6 @@ class PreviewActivity : ComponentActivity() {
                     color = MaterialTheme.colors.background
                 ) {
                     Column {
-
                         EquationItem(
                             line = listOf(
                                 "f(x) = ",
