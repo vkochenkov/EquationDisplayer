@@ -4,6 +4,19 @@ plugins {
     id 'maven-publish'
 }
 
+afterEvaluate {
+    publishing {
+        publications {
+            release(MavenPublication) {
+                from components.release
+                groupId = 'com.github.vkochenkov'
+                artifactId = 'equationdisplayerlib'
+                version = 'beta-1.0.5'
+            }
+        }
+    }
+}
+
 android {
     compileSdk 32
 
