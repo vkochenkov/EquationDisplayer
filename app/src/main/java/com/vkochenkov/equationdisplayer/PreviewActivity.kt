@@ -8,6 +8,7 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.ui.Modifier
 import com.vkochenkov.equationdisplayer.ui.theme.EquationDisplayerTheme
+import com.vkochenkov.equationdisplayerlib.EquationItem
 
 class PreviewActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -20,10 +21,10 @@ class PreviewActivity : ComponentActivity() {
                 ) {
                     Column {
 
-                        com.vkochenkov.equationdisplayerlib.EquationItem(
+                        EquationItem(
                             line = listOf(
                                 "f(x) = ",
-                                com.vkochenkov.equationdisplayerlib.EquationItem(
+                                EquationItem(
                                     line = "ax",
                                     superscript = "2"
                                 ),
@@ -32,27 +33,28 @@ class PreviewActivity : ComponentActivity() {
                             )
                         ).Show()
 
-                        com.vkochenkov.equationdisplayerlib.EquationItem(
+                        EquationItem(
                             line = listOf(
                                 "y = ",
-                                com.vkochenkov.equationdisplayerlib.EquationItem(
-                                    line = com.vkochenkov.equationdisplayerlib.EquationItem(
+                                EquationItem(
+                                    line = EquationItem(
                                         line = listOf(
                                             "(x - ",
-                                            com.vkochenkov.equationdisplayerlib.EquationItem(
+                                            EquationItem(
                                                 line = "1",
                                                 underline = "2"
                                             ),
                                             ")"
                                         )
                                     ),
-                                    superscript = com.vkochenkov.equationdisplayerlib.EquationItem(
+                                    superscript = EquationItem(
                                         line = "2",
                                         superscript = "3"
                                     )
                                 )
                             )
                         ).Show()
+
                     }
                 }
             }

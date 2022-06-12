@@ -10,10 +10,9 @@ afterEvaluate {
         publications {
             release(MavenPublication) {
                 from components.release
-
                 groupId = 'com.github.vkochenkov'
                 artifactId = 'equationdisplayerlib'
-                version = 'beta-1.0.0'
+                version = 'beta-1.0.1'
             }
         }
     }
