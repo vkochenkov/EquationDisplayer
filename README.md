@@ -3,11 +3,13 @@
 Hello everyone!
 I started to create native library for displaying equations, use Jetpack Compose.
 
-### Current stable version: *beta-1.0.6*
-Lib works on min sdk version: **21**, target sdk version: **32**.
+The main goal is create DSL based on only one object - `EquationItem`. You can create and decorate this object for displaying different types of equations. By nesting one object into another, you get more variety.
 
 On current time it seems like that: 
 <img src="https://user-images.githubusercontent.com/107124959/173235770-2bf2009a-64bf-4f0b-b13e-395f4520331d.png" style="width:800px;"/>
+
+### Current stable version: *beta-1.0.6*
+Lib works on min sdk version: **21**, target sdk version: **32**.
 
 ## Try to use this lib in your project:
 
