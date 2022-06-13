@@ -11,7 +11,7 @@ On current time it seems like that:
 ### Current stable version: *beta-1.0.6*
 Lib works on min sdk version: **21**, target sdk version: **32**.
 
-## Try to use this lib in your project:
+## Using this lib in your gradle project:
 
 If you project use `gradle version '7.1.0'` or higher, add `maven { url 'https://jitpack.io' }` in your root `settings.gradle` file:
 ```
@@ -39,6 +39,7 @@ dependencies {
     implementation 'com.github.vkochenkov:EquationDisplayer:beta-1.0.1'
 }
 ```
-I hoped you have a success.
+## Feedback
+I will be glad to hear any feedback from you. Please, connect me by email *kochenkov1993@gmail.com*
 
 
