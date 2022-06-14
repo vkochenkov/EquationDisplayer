@@ -55,7 +55,7 @@ class EquationItem(
             }
         ) {
             DrawSqrt(elementWidth, elementHigh, fontParams)
-            ShowMainContent(line, underline, fontParams, elementWidth, elementHigh)
+            ShowMainContent(line, underline, fontParams, elementWidthDp)
             ShowIndices(superscript, subscript, fontParams, elementHighDp)
         }
     }
@@ -70,8 +70,8 @@ class EquationItem(
         val color = Color.Black
 
         if (sqrt != null) {
-            val downObliquePoint = 0 - elementWidth / 6
-            val addedWidth = elementWidth / 10
+            val addedWidth = elementWidth / 12
+            val downObliquePoint = 0 - addedWidth * 2
             Column(
                 modifier = Modifier.width(addedWidth.dp)
             ) { /* do nothing */ }
@@ -98,13 +98,6 @@ class EquationItem(
                     color = color,
                     strokeWidth = strokeWidth
                 )
-//                /* vertical little end */
-//                drawLine(
-//                    start = Offset(x = elementWidth, y = 0 - elementHigh / 2),
-//                    end = Offset(x = elementWidth, y = 0 - elementHigh / 2.5f),
-//                    color = color,
-//                    strokeWidth = strokeWidth
-//                )
             }
         }
     }
@@ -114,12 +107,8 @@ class EquationItem(
         line: Any,
         underline: Any?,
         fontParams: FontParams,
-        elementWidth: Float,
-        elementHigh: Float,
+        elementWidthDp: Dp
     ) {
-        val strokeWidth = (fontParams.fontSize.value / 16)
-        val color = Color.Black
-
         Column(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
@@ -127,21 +116,11 @@ class EquationItem(
             if (underline is String || underline is EquationItem) {
                 newFontParams = halfSizedFontParams(fontParams)
                 CheckTypeWithList(line, newFontParams)
-                //todo think use canvas or divider. Expand for sqrt
-                Canvas(modifier = Modifier) {
-                    drawLine(
-                        start = Offset(x = 0 - elementWidth / 2, y = 0f),
-                        end = Offset(x = elementWidth /2, y = 0f),
-                        color = color,
-                        strokeWidth = strokeWidth
-                    )
-                }
-
-//                Divider(
-//                    modifier = Modifier.width(elementWidthDp),
-//                    color = Color.Black,
-//                    thickness = (newFontParams.fontSize.value / 18).dp
-//                )
+                Divider(
+                    modifier = Modifier.width(elementWidthDp),
+                    color = Color.Black,
+                    thickness = (newFontParams.fontSize.value / 18).dp
+                )
                 CheckTypeWithList(underline, newFontParams)
             } else {
                 CheckTypeWithList(line, newFontParams)
