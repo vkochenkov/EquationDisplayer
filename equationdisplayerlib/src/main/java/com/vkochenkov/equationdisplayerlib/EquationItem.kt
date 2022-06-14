@@ -11,6 +11,7 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
@@ -36,6 +37,11 @@ class EquationItem(
         val context = LocalContext.current
         val density = context.resources.displayMetrics.density
 
+        if (sqrt != null) {
+            Row(
+                modifier = Modifier.size((fontParams.fontSize.value / 18).dp)
+            ) { /* do nothing */ }
+        }
         Row(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier.onSizeChanged {
@@ -48,68 +54,118 @@ class EquationItem(
                 }
             }
         ) {
-            var newFontParams = fontParams
+            DrawSqrt(elementWidth, elementHigh, fontParams)
+            ShowMainContent(line, underline, fontParams, elementWidth, elementHigh)
+            ShowIndices(superscript, subscript, fontParams, elementHighDp)
+        }
+    }
 
-            // square root
-            if (sqrt != null && sqrt == 2) {
-                Column(
-                    modifier = Modifier.width((newFontParams.fontSize.value/18).dp)
-                ) {
+    @Composable
+    private fun DrawSqrt(
+        elementWidth: Float,
+        elementHigh: Float,
+        fontParams: FontParams,
+    ) {
+        val strokeWidth = (fontParams.fontSize.value / 16)
+        val color = Color.Black
 
-                }
-                Canvas(modifier = Modifier) {
-                    val canvasWidth = elementWidth
-                    val canvasHeight = elementHigh
-
-                    //todo improve draw
-                    drawLine(
-                        start = Offset(x = 0f, y = 0 - elementHigh / 2),
-                        end = Offset(x = elementWidth, y = 0 - elementHigh / 2),
-                        color = Color.Black,
-                        strokeWidth = (newFontParams.fontSize.value/5)
-                    )
-
-                    drawLine(
-                        start = Offset(x = 0f, y = elementHigh / 2),
-                        end = Offset(x = 0f, y = 0 - elementHigh / 2),
-                        color = Color.Black,
-                        strokeWidth = (newFontParams.fontSize.value/5)
-                    )
-                }
-            }
-            // main content
+        if (sqrt != null) {
+            val downObliquePoint = 0 - elementWidth / 6
+            val addedWidth = elementWidth / 10
             Column(
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                if (underline is String || underline is EquationItem) {
-                    newFontParams = newFontParams.copy(
-                        fontSize = (newFontParams.fontSize.value / 2).sp
-                    )
-                    CheckTypeWithList(line, newFontParams)
-                    Divider(
-                        modifier = Modifier.width(elementWidthDp),
-                        color = Color.Black,
-                        thickness = (newFontParams.fontSize.value / 18).dp
-                    )
-                    CheckTypeWithList(underline, newFontParams)
-                } else {
-                    CheckTypeWithList(line, newFontParams)
-                }
-            }
-            // indices
-            Column(
-                verticalArrangement = Arrangement.SpaceBetween,
-                modifier = Modifier.height(elementHighDp)
-            ) {
-                newFontParams = newFontParams.copy(
-                    fontSize = (newFontParams.fontSize.value / 2).sp
+                modifier = Modifier.width(addedWidth.dp)
+            ) { /* do nothing */ }
+            Canvas(modifier = Modifier) {
+                /* horizontal */
+                drawLine(
+                    start = Offset(x = 0f, y = 0 - elementHigh / 2),
+                    end = Offset(x = elementWidth, y = 0 - elementHigh / 2),
+                    color = color,
+                    strokeWidth = strokeWidth
                 )
-                Row {
-                    CheckTypeWithList(superscript, newFontParams)
+                /* oblique */
+
+                drawLine(
+                    start = Offset(x = downObliquePoint, y = elementHigh / 2),
+                    end = Offset(x = 0f, y = 0 - elementHigh / 2),
+                    color = color,
+                    strokeWidth = strokeWidth
+                )
+                /* vertical start */
+                drawLine(
+                    start = Offset(x = downObliquePoint, y = elementHigh / 2),
+                    end = Offset(x = downObliquePoint, y = 0 - elementHigh / 4),
+                    color = color,
+                    strokeWidth = strokeWidth
+                )
+//                /* vertical little end */
+//                drawLine(
+//                    start = Offset(x = elementWidth, y = 0 - elementHigh / 2),
+//                    end = Offset(x = elementWidth, y = 0 - elementHigh / 2.5f),
+//                    color = color,
+//                    strokeWidth = strokeWidth
+//                )
+            }
+        }
+    }
+
+    @Composable
+    private fun ShowMainContent(
+        line: Any,
+        underline: Any?,
+        fontParams: FontParams,
+        elementWidth: Float,
+        elementHigh: Float,
+    ) {
+        val strokeWidth = (fontParams.fontSize.value / 16)
+        val color = Color.Black
+
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            var newFontParams = fontParams.copy()
+            if (underline is String || underline is EquationItem) {
+                newFontParams = halfSizedFontParams(fontParams)
+                CheckTypeWithList(line, newFontParams)
+                //todo think use canvas or divider. Expand for sqrt
+                Canvas(modifier = Modifier) {
+                    drawLine(
+                        start = Offset(x = 0 - elementWidth / 2, y = 0f),
+                        end = Offset(x = elementWidth /2, y = 0f),
+                        color = color,
+                        strokeWidth = strokeWidth
+                    )
                 }
-                Row {
-                    CheckTypeWithList(subscript, newFontParams)
-                }
+
+//                Divider(
+//                    modifier = Modifier.width(elementWidthDp),
+//                    color = Color.Black,
+//                    thickness = (newFontParams.fontSize.value / 18).dp
+//                )
+                CheckTypeWithList(underline, newFontParams)
+            } else {
+                CheckTypeWithList(line, newFontParams)
+            }
+        }
+    }
+
+    @Composable
+    private fun ShowIndices(
+        superscript: Any?,
+        subscript: Any?,
+        fontParams: FontParams,
+        elementHighDp: Dp
+    ) {
+        Column(
+            verticalArrangement = Arrangement.SpaceBetween,
+            modifier = Modifier.height(elementHighDp)
+        ) {
+            val newFontParams = halfSizedFontParams(fontParams)
+            Row {
+                CheckTypeWithList(superscript, newFontParams)
+            }
+            Row {
+                CheckTypeWithList(subscript, newFontParams)
             }
         }
     }
@@ -150,5 +206,11 @@ class EquationItem(
                 Text(text = "", fontSize = fontParams.fontSize)
             }
         }
+    }
+
+    private fun halfSizedFontParams(fontParams: FontParams): FontParams {
+        return fontParams.copy(
+            fontSize = (fontParams.fontSize.value / 2).sp
+        )
     }
 }

@@ -16,6 +16,7 @@ import androidx.compose.ui.unit.sp
 import com.vkochenkov.equationdisplayer.ui.theme.EquationDisplayerTheme
 import com.vkochenkov.equationdisplayerlib.EquationItem
 import com.vkochenkov.equationdisplayerlib.FontParams
+import kotlin.math.sqrt
 
 class SampleActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,10 +29,23 @@ class SampleActivity : ComponentActivity() {
                 ) {
 
                     Column {
-
                         EquationItem(
-                            line = "x"
-                        ).Show()
+                            line = listOf(
+                                "x = ",
+                                EquationItem (
+                                    line = EquationItem(
+                                    sqrt = 2,
+                                    line = "x + y - 1 + 2",
+                                    underline = "2"
+                                ),
+                                underline = EquationItem(
+                                    sqrt = 2,
+                                    line = "y - x",
+                                    underline = "4"
+                                )
+                            )),
+                            subscript = "5"
+                        ).Show(fontParams = FontParams(90.sp, fontFamily = FontFamily.Cursive))
 
                         EquationItem(
                             line = listOf(
