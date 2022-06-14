@@ -37,26 +37,28 @@ class EquationItem(
         val context = LocalContext.current
         val density = context.resources.displayMetrics.density
 
-        if (sqrt != null) {
-            Row(
-                modifier = Modifier.size((fontParams.fontSize.value / 18).dp)
-            ) { /* do nothing */ }
-        }
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier.onSizeChanged {
-                elementHigh = it.height.toFloat()
-                elementHighDp = (elementHigh / density).dp
-                if (!isSizeChanged) {
-                    elementWidth = it.width.toFloat()
-                    elementWidthDp = (elementWidth / density).dp
-                    isSizeChanged = true
-                }
+        Column {
+            if (sqrt != null) {
+                Row(
+                    modifier = Modifier.size((fontParams.fontSize.value / 18).dp)
+                ) { /* do nothing */ }
             }
-        ) {
-            DrawSqrt(elementWidth, elementHigh, fontParams)
-            ShowMainContent(line, underline, fontParams, elementWidthDp)
-            ShowIndices(superscript, subscript, fontParams, elementHighDp)
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier.onSizeChanged {
+                    elementHigh = it.height.toFloat()
+                    elementHighDp = (elementHigh / density).dp
+                    if (!isSizeChanged) {
+                        elementWidth = it.width.toFloat()
+                        elementWidthDp = (elementWidth / density).dp
+                        isSizeChanged = true
+                    }
+                }
+            ) {
+                DrawSqrt(elementWidth, elementHigh, fontParams)
+                ShowMainContent(line, underline, fontParams, elementWidthDp)
+                ShowIndices(superscript, subscript, fontParams, elementHighDp)
+            }
         }
     }
 
@@ -84,16 +86,15 @@ class EquationItem(
                     strokeWidth = strokeWidth
                 )
                 /* oblique */
-
                 drawLine(
-                    start = Offset(x = downObliquePoint, y = elementHigh / 2),
+                    start = Offset(x = downObliquePoint, y = elementHigh / 3),
                     end = Offset(x = 0f, y = 0 - elementHigh / 2),
                     color = color,
                     strokeWidth = strokeWidth
                 )
                 /* vertical start */
                 drawLine(
-                    start = Offset(x = downObliquePoint, y = elementHigh / 2),
+                    start = Offset(x = downObliquePoint, y = elementHigh / 3),
                     end = Offset(x = downObliquePoint, y = 0 - elementHigh / 4),
                     color = color,
                     strokeWidth = strokeWidth
@@ -114,7 +115,7 @@ class EquationItem(
         ) {
             var newFontParams = fontParams.copy()
             if (underline is String || underline is EquationItem) {
-                newFontParams = halfSizedFontParams(fontParams)
+                //newFontParams = halfSizedFontParams(fontParams)
                 CheckTypeWithList(line, newFontParams)
                 Divider(
                     modifier = Modifier.width(elementWidthDp),

@@ -7,6 +7,7 @@ import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color.Companion.Black
@@ -27,91 +28,28 @@ class SampleActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-
-                    Column {
+                    Column(
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
                         EquationItem(
                             line = listOf(
-                                "x = ",
-                                EquationItem (
-                                    line = EquationItem(
-                                    sqrt = 2,
-                                    line = "x + y - 1 + 2",
-                                    underline = "2"
-                                ),
-                                underline = EquationItem(
-                                    sqrt = 2,
-                                    line = "y - x",
-                                    underline = "4"
-                                )
-                            )),
-                            subscript = "5"
-                        ).Show(fontParams = FontParams(90.sp, fontFamily = FontFamily.Cursive))
-
-                        EquationItem(
-                            line = listOf(
-                                "f(x) = ",
+                                "f(x) = a",
                                 EquationItem(
-                                    line = "ax",
+                                    line = "x",
                                     superscript = "2"
                                 ),
-                                " + bx",
-                                " + c"
-                            )
-                        ).Show()
-
-                        EquationItem(
-                            line = listOf(
-                                "y = ",
-                                EquationItem(
-                                    line = EquationItem(
-                                        line = listOf(
-                                            "(x - ",
-                                            EquationItem(
-                                                line = "1",
-                                                underline = "2"
-                                            ),
-                                            ")"
-                                        )
-                                    ),
-                                    superscript = EquationItem(
-                                        line = "2",
-                                        superscript = "3"
-                                    )
-                                )
-                            )
-                        ).Show()
-
-                        EquationItem(
-                            line = "x",
-                            sqrt = 2
-                        ).Show()
-
-                        EquationItem(
-                            line = EquationItem(
-                                line = listOf(
-                                    "2 + ",
-                                    EquationItem(
-                                        line = "4",
-                                        superscript = "2"
-                                    )
-                                ),
-                                underline = EquationItem(
-                                    line = "3",
-                                    underline = "2",
-                                    sqrt = 2
-                                )
+                                " + bx + c"
                             ),
-                            sqrt = 2
-                        ).Show(fontParams = FontParams(50.sp, fontFamily = FontFamily.Cursive))
-
+                        ).Show(
+                            FontParams(
+                                fontSize = 30.sp,
+                                fontFamily = FontFamily.Cursive,
+                                fontStyle = FontStyle.Normal
+                            )
+                        )
                     }
                 }
             }
         }
     }
 }
-
-
-
-
-
