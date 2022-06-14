@@ -8,7 +8,7 @@ I started to create native library for displaying equations, using Compose.
 
 The main goal is create DSL based on only one object - `EquationItem`. You can create and decorate this object for displaying different types of equations. By nesting one object into another, you get more variety.
 
-## See some examples below:
+## See some examples below
 1) For display simplest example, add `EquationItem` object, set value in constructor and call compose functions `Show()` on the object:
 <img src="https://user-images.githubusercontent.com/107124959/173685564-710d40f0-cfad-4504-ba10-701cc3a71501.jpg" style="width:800px;"/>
 
@@ -25,11 +25,11 @@ The main goal is create DSL based on only one object - `EquationItem`. You can c
 5) Finally, more complex example:
 <img src="https://user-images.githubusercontent.com/107124959/173688233-a0ed2324-946d-4d05-8925-cfd10bc1fb33.jpg" style="width:800px;"/>
 
-## Android SDK version requirements:
+## Android SDK version requirements
 - min sdk version: **21**
 - target sdk version: **32**
 
-## Using the lib in your gradle project:
+## Using the lib in your gradle project
 If you project use `gradle version '7.1.0'` or higher, add `maven { url 'https://jitpack.io' }` in your root `settings.gradle` file:
 ```
 dependencyResolutionManagement {
