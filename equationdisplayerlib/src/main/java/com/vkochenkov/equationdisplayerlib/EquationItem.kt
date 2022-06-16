@@ -24,7 +24,8 @@ class EquationItem(
 ) {
     @Composable
     fun Show(
-        fontParams: FontParams = FontParams()
+        fontParams: FontParams = FontParams(),
+        isIndex: Boolean = false
     ) {
         var elementHigh by remember { mutableStateOf(0f) }
         var elementWidth by remember { mutableStateOf(0f) }
@@ -40,7 +41,7 @@ class EquationItem(
         Column {
             if (sqrt != null) {
                 Row(
-                    modifier = Modifier.size((fontParams.fontSize.value / 18).dp)
+                    modifier = Modifier.size((fontParams.fontSize.value / 10).dp)
                 ) { /* do nothing */ }
             }
             Row(
@@ -56,7 +57,7 @@ class EquationItem(
                 }
             ) {
                 DrawSqrt(elementWidth, elementHigh, fontParams)
-                ShowMainContent(line, underline, fontParams, elementWidthDp)
+                ShowMainContent(line, underline, fontParams, elementWidthDp, isIndex)
                 ShowIndices(superscript, subscript, fontParams, elementHighDp)
             }
         }
@@ -68,34 +69,35 @@ class EquationItem(
         elementHigh: Float,
         fontParams: FontParams,
     ) {
-        val strokeWidth = (fontParams.fontSize.value / 16)
+        val context = LocalContext.current
+
+        val density = context.resources.displayMetrics.density
+        val strokeWidth = (fontParams.fontSize.value / 10)
         val color = Color.Black
 
         if (sqrt != null) {
-            val addedWidth = elementWidth / 12
-            val downObliquePoint = 0 - addedWidth * 2
-            Column(
-                modifier = Modifier.width(addedWidth.dp)
-            ) { /* do nothing */ }
+            val addedWidth = fontParams.fontSize.value * density
+            val downObliquePoint = addedWidth - addedWidth/2
+
             Canvas(modifier = Modifier) {
                 /* horizontal */
                 drawLine(
-                    start = Offset(x = 0f, y = 0 - elementHigh / 2),
-                    end = Offset(x = elementWidth, y = 0 - elementHigh / 2),
+                    start = Offset(x = elementWidth , y = 0 - elementHigh / 2),
+                    end = Offset(x = addedWidth , y = 0 - elementHigh / 2),
                     color = color,
                     strokeWidth = strokeWidth
                 )
-                /* oblique */
+                /* oblique right */
                 drawLine(
-                    start = Offset(x = downObliquePoint, y = elementHigh / 3),
-                    end = Offset(x = 0f, y = 0 - elementHigh / 2),
+                    start = Offset(x = addedWidth , y = 0 - elementHigh / 2),
+                    end = Offset(x = downObliquePoint, y = elementHigh / 3),
                     color = color,
                     strokeWidth = strokeWidth
                 )
-                /* vertical start */
+                /* oblique left */
                 drawLine(
                     start = Offset(x = downObliquePoint, y = elementHigh / 3),
-                    end = Offset(x = downObliquePoint, y = 0 - elementHigh / 4),
+                    end = Offset(x = downObliquePoint / 2, y = 0f),
                     color = color,
                     strokeWidth = strokeWidth
                 )
@@ -108,17 +110,25 @@ class EquationItem(
         line: Any,
         underline: Any?,
         fontParams: FontParams,
-        elementWidthDp: Dp
+        elementWidthDp: Dp,
+        isIndex: Boolean = false
     ) {
+        var paddingStart = 0.dp
+        if (sqrt != null) {
+            paddingStart = fontParams.fontSize.value.dp
+        }
         Column(
-            horizontalAlignment = Alignment.CenterHorizontally
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = Modifier.padding(start = paddingStart)
         ) {
             var newFontParams = fontParams.copy()
-            if (underline is String || underline is EquationItem) {
-                //newFontParams = halfSizedFontParams(fontParams)
+            if (underline != null) {
+                if (isIndex) {
+                    newFontParams = halfSizedFontParams(fontParams)
+                }
                 CheckTypeWithList(line, newFontParams)
                 Divider(
-                    modifier = Modifier.width(elementWidthDp),
+                    modifier = Modifier.width(elementWidthDp - paddingStart),
                     color = Color.Black,
                     thickness = (newFontParams.fontSize.value / 18).dp
                 )
@@ -142,34 +152,34 @@ class EquationItem(
         ) {
             val newFontParams = halfSizedFontParams(fontParams)
             Row {
-                CheckTypeWithList(superscript, newFontParams)
+                CheckTypeWithList(superscript, newFontParams, true)
             }
             Row {
-                CheckTypeWithList(subscript, newFontParams)
+                CheckTypeWithList(subscript, newFontParams, true)
             }
         }
     }
 
     @Composable
-    private fun CheckTypeWithList(item: Any?, fontParams: FontParams) {
+    private fun CheckTypeWithList(item: Any?, fontParams: FontParams, isIndex: Boolean = false) {
         when (item) {
             is List<*> -> {
                 Row(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     for (i in item) {
-                        CheckBaseType(i, fontParams)
+                        CheckBaseType(i, fontParams, isIndex)
                     }
                 }
             }
             else -> {
-                CheckBaseType(item, fontParams)
+                CheckBaseType(item, fontParams, isIndex)
             }
         }
     }
 
     @Composable
-    private fun CheckBaseType(item: Any?, fontParams: FontParams) {
+    private fun CheckBaseType(item: Any?, fontParams: FontParams, isIndex: Boolean = false) {
         when (item) {
             is String -> {
                 Text(
@@ -180,7 +190,7 @@ class EquationItem(
                 )
             }
             is EquationItem -> {
-                item.Show(fontParams)
+                item.Show(fontParams, isIndex)
             }
             else -> {
                 Text(text = "", fontSize = fontParams.fontSize)

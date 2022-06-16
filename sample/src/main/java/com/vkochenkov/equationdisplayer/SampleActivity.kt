@@ -33,10 +33,73 @@ class SampleActivity : ComponentActivity() {
                     ) {
                         EquationItem(
                             line = listOf(
-                                "f(x) = a",
+                                "g + ",
                                 EquationItem(
                                     line = "x",
-                                    superscript = "2"
+                                    sqrt = 2
+                                )
+                            ),
+                            underline = listOf(
+                                "r",
+                                EquationItem(
+                                    line = "y",
+                                    sqrt = 2
+                                )
+                            )
+                        ).Show()
+
+                        EquationItem(
+                            line = listOf(
+                                "x = ",
+                                EquationItem(
+                                    line = EquationItem(
+                                        line = "x",
+                                        superscript = "2",
+                                        subscript = "2"
+                                    ),
+                                    underline = "y",
+                                    sqrt = 2
+                                )
+                            )
+                        ).Show()
+
+                        EquationItem(
+                            line =
+
+                            EquationItem(
+                                line = listOf(
+                                    EquationItem(
+                                        line = "x",
+                                        superscript = "2"
+                                    ),
+                                    " + ",
+                                    EquationItem(
+                                        line = "4",
+                                        superscript = EquationItem(
+                                            line = "1 + 1234",
+                                            underline = "2",
+                                            sqrt = 2
+                                        )
+                                    )
+                                ),
+                                sqrt = 2,
+                                underline = "hello"
+
+                            ),
+                            underline = EquationItem(
+                                line = "some value",
+                                sqrt = 2
+                            )
+                        ).Show()
+
+
+                        EquationItem(
+                            line = listOf(
+                                "f(x) =",
+                                EquationItem(
+                                    line = "ax",
+                                    superscript = "2",
+                                    sqrt = 2
                                 ),
                                 " + bx + c"
                             ),
